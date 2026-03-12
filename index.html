@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SignalDesk · Real‑time brand intelligence</title>
+  <meta name="description" content="SignalDesk is a real‑time brand monitoring platform that helps companies track mentions, sentiment, and trends across social media and news platforms.">
+  <meta property="og:title" content="SignalDesk – real‑time brand intelligence">
+  <meta name="keywords" content="brand monitoring, real‑time intelligence, social listening, sentiment analysis, competitor tracking, dark dashboard, SignalDesk, media monitoring, trend discovery, SaaS">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/png" href="site-icon.png">
+  <meta property="og:url" content="https://signaldesk.demo">
+  <!-- <meta property="og:image" content="https://signaldesk.demo/og-preview.jpg"> -->
+  <meta property="og:description" content="SignalDesk is a real‑time brand monitoring platform that helps companies track mentions, sentiment, and trends across social media and news platforms.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Bootstrap 5 + Inter Font + Chart.js -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* custom.css — modern SaaS / dark analytics with Plausible-inspired header/footer */
+    :root {
+      --bg-deep: #1F172A;
+      --card-bg: rgba(30, 20, 40, 0.6);
+      --glass-border: rgba(166, 74, 254, 0.2);
+      --glow-purple: #A64AFE;
+      --glow-blue: #55A6FF;
+      --glow-cyan: #22D3EE;
+      --gradient-primary: linear-gradient(135deg, #A64AFE, #77C5FF, #22D3EE);
+      --text-light: #E0DAF0;
+      --text-muted: #A895C0;
+      --min-content-width: 320px;
+      --content-max-width: 1200px;
+    }
+
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-deep);
+      color: var(--text-light);
+      line-height: 1.5;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      width: 100%;
+      min-width: var(--min-content-width);
+    }
+    
+    .container {
+      width: 100%;
+      max-width: var(--content-max-width);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 15px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 12px;
+      }
+    }
+    
+    h1, h2, h3, h4 { 
+      font-weight: 700; 
+      letter-spacing: -0.02em; 
+      word-wrap: break-word;
+    }
+    
+    h1.display-4 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+    }
+    
+    h2 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+    }
+    
+    p { 
+      color: #C1B0D9; 
+      font-weight: 400;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+    }
+
+    .section {
+      padding: clamp(40px, 8vw, 60px) 0;
+    }
+
+    /* glass card — keeping your original dashboard style */
+    .glass-card {
+      background: rgba(26, 17, 36, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border);
+      border-radius: clamp(20px, 3vw, 28px);
+      box-shadow: 0 20px 40px -12px rgba(0,0,0,0.8), 0 0 0 1px rgba(166,74,254,0.1) inset;
+      transition: transform 0.25s ease, box-shadow 0.3s ease;
+      height: 100%;
+    }
+    
+    .glass-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 30px 50px -20px #A64AFE40, 0 0 20px #A64AFE20;
+      border-color: #A64AFE60;
+    }
+    
+    .glass-panel {
+      background: rgba(20, 12, 28, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid #3B2A4A;
+      border-radius: 20px;
+    }
+
+    .gradient-text {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 700;
+    }
+
+    /* Button styles with responsive padding */
+    .btn-gradient,
+    .btn-outline-glow {
+      font-weight: 600;
+      padding: clamp(0.6rem, 2vw, 0.8rem) clamp(1.2rem, 3vw, 2rem);
+      border-radius: 40px;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      white-space: nowrap;
+    }
+    
+    @media (max-width: 480px) {
+      .btn-gradient,
+      .btn-outline-glow {
+        white-space: normal;
+        width: 100%;
+      }
+      
+      .d-flex.gap-3 {
+        flex-direction: column;
+        gap: 10px !important;
+      }
+    }
+    
+    .btn-gradient {
+      background: linear-gradient(145deg, #A64AFE, #3B82F6);
+      border: none;
+      color: white;
+      box-shadow: 0 10px 20px -8px #A64AFE80;
+    }
+    
+    .btn-gradient:hover {
+      background: linear-gradient(145deg, #b75cff, #4e8cff);
+      box-shadow: 0 20px 30px -6px #A64AFE, 0 0 20px #77C5FF;
+      color: white;
+      transform: scale(1.02);
+    }
+    
+    .btn-outline-glow {
+      background: transparent;
+      border: 1.5px solid rgba(166,74,254,0.5);
+      color: white;
+    }
+    
+    .btn-outline-glow:hover {
+      border-color: #A64AFE;
+      box-shadow: 0 0 20px #A64AFE, 0 0 40px #3B82F640;
+      background: rgba(166,74,254,0.1);
+      color: white;
+    }
+
+    .gradient-divider {
+      height: 2px;
+      width: clamp(60px, 10vw, 80px);
+      background: linear-gradient(90deg, #A64AFE, #22D3EE, transparent);
+      margin: clamp(1.5rem, 3vw, 2rem) 0;
+    }
+
+    /* Chart containers */
+    .chart-container {
+      position: relative;
+      height: clamp(120px, 20vw, 160px);
+      width: 100%;
+    }
+    
+    .mini-chart {
+      height: clamp(36px, 6vw, 48px);
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    /* Feed items */
+    .feed-item {
+      background: rgba(255,255,255,0.02);
+      border-left: 3px solid;
+      border-image: linear-gradient(180deg, #A64AFE, #22D3EE) 1;
+      animation: slideUp 0.5s ease forwards;
+      opacity: 0;
+      transform: translateY(20px);
+      padding: clamp(0.8rem, 2vw, 1.2rem) !important;
+    }
+    
+    @keyframes slideUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Animations */
+    .floating {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .lift {
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .lift:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 40px -20px #A64AFE;
+    }
+
+    /* Counter */
+    .counter {
+      font-size: clamp(1.8rem, 4vw, 2.2rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff, #C9B0FF);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Icon cards grid */
+    .icon-card {
+      background: rgba(40, 30, 50, 0.5);
+      border-radius: clamp(16px, 3vw, 24px);
+      padding: clamp(0.8rem, 2vw, 1.2rem);
+      text-align: center;
+      border: 1px solid #3B2D4A;
+      transition: 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+    }
+    
+    .icon-card:hover {
+      border-color: #A64AFE;
+      box-shadow: 0 0 20px #A64AFE40;
+    }
+    
+    .icon-card i { 
+      font-size: clamp(1.8rem, 4vw, 2.5rem); 
+      background: linear-gradient(145deg,#A64AFE,#22D3EE); 
+      -webkit-background-clip: text; 
+      background-clip: text; 
+      color: transparent; 
+      margin-bottom: 8px;
+    }
+    
+    .icon-card span {
+      font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+    }
+
+    /* Header styles */
+    .plausible-header {
+      background-color: #130c1c;
+      border-bottom: 1px solid #3B2A4A;
+      padding: 0.75rem 0;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .plausible-header .navbar-brand {
+      font-weight: 700;
+      font-size: clamp(1.2rem, 3vw, 1.5rem);
+      letter-spacing: -0.02em;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent !important;
+    }
+    
+    .plausible-header .navbar-nav .nav-link {
+      color: #C1B0D9 !important;
+      font-weight: 500;
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      padding: 0.5rem 1rem !important;
+      transition: color 0.2s;
+    }
+    
+    @media (max-width: 992px) {
+      .plausible-header .navbar-nav {
+        padding: 1rem 0;
+      }
+      
+      .plausible-header .navbar-nav .nav-link {
+        text-align: center;
+        padding: 0.75rem !important;
+      }
+      
+      .plausible-header .navbar-nav .nav-item.ms-lg-3 {
+        flex-direction: row;
+        gap: 10px;
+        margin-top: 1rem;
+        width: 300px !important;
+      }
+      
+      .plausible-header .btn-signin {
+        margin-right: 0;
+        text-align: center;
+        width: 100%;
+      }
+      
+      .plausible-header .btn-trial {
+        width: 100%;
+        text-align: center;
+      }
+    }
+    
+    .plausible-header .btn-signin {
+      color: #C1B0D9;
+      font-weight: 600;
+      text-decoration: none;
+      margin-right: 1.5rem;
+      padding: 0.5rem 1.5rem;
+      border-radius: 40px;
+      border: 1px solid #A64AFE;
+      transition: color 0.2s;
+    }
+    
+    .plausible-header .btn-signin:hover {
+      color: white;
+    }
+    
+    .plausible-header .btn-trial {
+      background: linear-gradient(145deg, #A64AFE, #3B82F6);
+      color: white;
+      font-weight: 600;
+      padding: 0.5rem 1.5rem;
+      border-radius: 40px;
+      border: none;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 10px 20px -8px #A64AFE80;
+    }
+    
+    .plausible-header .btn-trial:hover {
+      background: linear-gradient(145deg, #b75cff, #4e8cff);
+      box-shadow: 0 20px 30px -6px #A64AFE, 0 0 20px #77C5FF;
+      color: white;
+      transform: scale(1.02);
+    }
+
+    /* Footer styles */
+    .plausible-footer {
+      background-color: #130c1c;
+      border-top: 1px solid #3B2A4A;
+      padding: clamp(2rem, 5vw, 3rem) 0 clamp(1.5rem, 3vw, 2rem);
+      color: #C1B0D9;
+      font-size: 0.95rem;
+    }
+    
+    .plausible-footer h6 {
+      color: white;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      font-size: 1rem;
+    }
+    
+    .plausible-footer a {
+      color: #A895C0;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.6rem;
+      transition: color 0.2s;
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+    }
+    
+    .plausible-footer a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+    
+    .plausible-footer .social-icons a {
+      display: inline-block;
+      margin-right: 1rem;
+      font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+      color: #A895C0;
+    }
+    
+    .plausible-footer .social-icons a:hover {
+      color: white;
+    }
+    
+    .plausible-footer .copyright {
+      border-top: 1px solid #3B2A4A;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      text-align: center;
+      color: #7A6A8A;
+      font-size: 0.85rem;
+    }
+
+    /* Monitor styles */
+    .real-monitor {
+      position: relative;
+      border-radius: clamp(24px, 4vw, 32px) !important;
+      background: #0A0710 !important;
+      box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.8),
+                  0 0 0 2px rgba(166, 74, 254, 0.3) inset,
+                  0 0 0 4px rgba(255, 255, 255, 0.05) inset !important;
+      transform: perspective(1000px) rotateX(2deg);
+      transition: all 0.3s ease;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+    }
+    
+    @media (max-width: 992px) {
+      .real-monitor {
+        transform: none;
+        margin-top: 2rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .real-monitor {
+        border-radius: 20px !important;
+      }
+      .real-monitor::before,
+      .real-monitor::after,
+      .real-monitor .monitor-led {
+        display: none;
+      }
+    }
+    
+    .real-monitor .monitor-screen {
+      background: #0D0A14 !important;
+      border-radius: clamp(20px, 3vw, 24px) !important;
+      border: 1px solid rgba(166, 74, 254, 0.3);
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5) inset,
+                  0 0 20px rgba(166, 74, 254, 0.2);
+      overflow: hidden;
+      position: relative;
+      padding: clamp(1rem, 3vw, 1.5rem) !important;
+    }
+    
+    .real-monitor canvas {
+      max-width: 100%;
+      height: auto !important;
+    }
+
+    /* Feed section */
+    .real-feed-section {
+      position: relative;
+      background: linear-gradient(145deg, #1A1323, #130C1C);
+      border-radius: clamp(24px, 4vw, 32px);
+      padding:40px 20px;
+      border: 1px solid rgba(166, 74, 254, 0.2);
+      box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.8),
+                  0 0 0 1px rgba(166, 74, 254, 0.2) inset,
+                  0 0 40px rgba(166, 74, 254, 0.1);
+                  /* padding-top: 10px ;
+                  padding-bottom: 10px ; */
+    }
+    
+    .feed-content-right {
+      padding-left: clamp(1rem, 5vw, 3rem);
+    }
+    
+    @media (max-width: 992px) {
+      .feed-content-right {
+        padding-left: 0;
+        margin-top: 2rem;
+      }
+    }
+    
+    .feed-content-right h2 {
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      margin-bottom: clamp(1rem, 3vw, 1.5rem);
+      background: linear-gradient(145deg, #fff, #C1B0D9);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      word-wrap: break-word;
+    }
+    
+    .feed-content-right p {
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      line-height: 1.6;
+      margin-bottom: clamp(1.5rem, 3vw, 2rem);
+    }
+
+    /* Feature list */
+    .feature-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+      color: #C1B0D9;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      flex-wrap: wrap;
+    }
+    
+    .feature-list li i {
+      color: #22D3EE;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      flex-shrink: 0;
+    }
+
+    /* Feed stats */
+    .feed-stats {
+      display: flex;
+      gap: clamp(15px, 3vw, 20px);
+      margin-bottom: 1.5rem;
+      padding: clamp(0.8rem, 2vw, 1rem);
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 20px;
+      border: 1px solid rgba(166, 74, 254, 0.2);
+      flex-wrap: wrap;
+    }
+    
+    @media (max-width: 768px) {
+      .feed-stats {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+    
+    .stat-item {
+      flex: 1;
+      text-align: center;
+      min-width: 120px;
+    }
+    
+    .stat-value {
+      font-size: clamp(1.2rem, 3vw, 1.5rem);
+      font-weight: 700;
+      background: linear-gradient(145deg, #A64AFE, #22D3EE);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Pricing cards */
+    .col-md-4 .glass-card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .col-md-4 .glass-card p {
+      flex: 1;
+    }
+    
+    @media (max-width: 768px) {
+      .col-md-4 {
+        margin-bottom: 1.5rem;
+      }
+    }
+
+    /* Platform icons grid */
+    .row.g-3.justify-content-center .col-3 {
+      flex: 0 0 auto;
+      width: 50%;
+    }
+    
+    @media (min-width: 576px) {
+      .row.g-3.justify-content-center .col-3 {
+        width: 33.333%;
+      }
+    }
+    
+    @media (min-width: 992px) {
+      .row.g-3.justify-content-center .col-lg-1-5 {
+        flex: 0 0 auto;
+        width: 20%;
+      }
+      .small-size{
+        width: 300px !important;
+      }
+    }
+
+    /* Responsive typography and spacing */
+    .display-4 {
+      font-size: clamp(2.5rem, 6vw, 3.5rem);
+    }
+    
+    .display-5 {
+      font-size: clamp(2rem, 5vw, 2.5rem);
+    }
+    
+    .display-6 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+    }
+    
+    .lead {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+    }
+
+    /* Grid improvements */
+    .row.align-items-center.g-5 {
+      --bs-gutter-y: clamp(2rem, 5vw, 3rem);
+    }
+    
+    .row.g-4 {
+      --bs-gutter-y: 1.5rem;
+    }
+
+    /* Badge improvements */
+    .badge {
+      font-size: clamp(0.65rem, 1.5vw, 0.75rem);
+      padding: clamp(0.3rem, 1vw, 0.5rem) clamp(0.6rem, 1.5vw, 0.8rem);
+      white-space: nowrap;
+    }
+    
+    @media (max-width: 480px) {
+      .badge {
+        white-space: normal;
+        word-break: break-word;
+      }
+    }
+
+    /* Timeline section */
+    .row.mt-5.g-0.justify-content-center .col-md-3 {
+      margin-bottom: 2rem;
+    }
+    
+    .badge.bg-gradient.p-3 {
+      padding: clamp(0.8rem, 2vw, 1rem) !important;
+      font-size: clamp(0.8rem, 2vw, 1rem);
+      white-space: normal;
+      word-break: break-word;
+      max-width: 100%;
+    }
+
+    /* Final CTA section */
+    #cta {
+      padding: clamp(40px, 8vw, 60px) 0 !important;
+    }
+
+    /* Ensure no overflow issues */
+    img, svg, canvas, iframe {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    /* Bootstrap column fixes */
+    .row {
+      margin-right: 0;
+      margin-left: 0;
+    }
+    
+    [class*="col-"] {
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+    
+    @media (max-width: 768px) {
+      [class*="col-"] {
+        padding-right: 12px;
+        padding-left: 12px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      [class*="col-"] {
+        padding-right: 10px;
+        padding-left: 10px;
+      }
+    }
+
+    /* Fix for small screens */
+    @media (max-width: 360px) {
+      .d-flex.gap-4 {
+        gap: 1rem !important;
+        flex-wrap: wrap;
+      }
+      
+      .glass-card.p-4 {
+        padding: 1rem !important;
+      }
+      
+      h2.text-center {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Ensure charts are responsive */
+    #heroChart,
+    #sentimentChart,
+    #competitorChart {
+      max-height: clamp(100px, 20vw, 200px);
+      width: 100% !important;
+    }
+
+    /* Additional responsive font and button size adjustments */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+  
+  h1.display-4 {
+    font-size: 2rem !important;
+  }
+  
+  h2 {
+    font-size: 1.5rem !important;
+  }
+  
+  h2.text-center {
+    font-size: 1.5rem !important;
+  }
+  
+  .lead, p {
+    font-size: 0.9rem !important;
+  }
+  
+  .btn-gradient, 
+  .btn-outline-glow,
+  .btn-trial,
+  .btn-signin {
+    font-size: 0.85rem !important;
+    padding: 0.5rem 1rem !important;
+  }
+  
+  .btn-lg {
+    font-size: 0.9rem !important;
+    padding: 0.6rem 1.2rem !important;
+  }
+  
+  .counter {
+    font-size: 1.5rem !important;
+  }
+  
+  .badge {
+    font-size: 0.7rem !important;
+    padding: 0.25rem 0.5rem !important;
+  }
+  
+  .glass-card h5 {
+    font-size: 1rem !important;
+  }
+  
+  .feed-item {
+    font-size: 0.85rem !important;
+  }
+  
+  .feed-item strong {
+    font-size: 0.85rem !important;
+  }
+  
+  .stat-value {
+    font-size: 1.2rem !important;
+  }
+  
+  .display-6 {
+    font-size: 1.5rem !important;
+  }
+  
+  .plausible-footer {
+    font-size: 0.85rem !important;
+  }
+  
+  .plausible-footer h6 {
+    font-size: 0.9rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 13px;
+  }
+  
+  h1.display-4 {
+    font-size: 1.75rem !important;
+  }
+  
+  h2 {
+    font-size: 1.25rem !important;
+  }
+  
+  .btn-gradient, 
+  .btn-outline-glow,
+  .btn-trial,
+  .btn-signin {
+    font-size: 0.8rem !important;
+    padding: 0.4rem 0.8rem !important;
+  }
+  
+  .btn-lg {
+    font-size: 0.85rem !important;
+    padding: 0.5rem 1rem !important;
+  }
+  
+  .counter {
+    font-size: 1.25rem !important;
+  }
+  
+  .badge {
+    font-size: 0.65rem !important;
+  }
+  
+  .glass-card {
+    padding: 1rem !important;
+  }
+  
+  .icon-card i {
+    font-size: 1.5rem !important;
+  }
+  
+  .icon-card span {
+    font-size: 0.7rem !important;
+  }
+  
+  .feed-stats {
+    padding: 0.5rem !important;
+  }
+  
+  .stat-value {
+    font-size: 1rem !important;
+  }
+}
+
+@media (max-width: 360px) {
+  body {
+    font-size: 12px;
+  }
+  
+  h1.display-4 {
+    font-size: 1.5rem !important;
+  }
+  
+  h2 {
+    font-size: 1.1rem !important;
+  }
+  
+  .btn-gradient, 
+  .btn-outline-glow,
+  .btn-trial,
+  .btn-signin {
+    font-size: 0.75rem !important;
+    padding: 0.35rem 0.7rem !important;
+  }
+  
+  .counter {
+    font-size: 1.1rem !important;
+  }
+  
+  .glass-card p {
+    font-size: 0.8rem !important;
+  }
+}
+.text-muted{
+    color: #fff !important;
+}
+/* Navbar toggle button color */
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25) !important;
+  outline: none;
+}
+
+/* Sticky navbar with subtle shrink effect */
+.plausible-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: all 0.2s ease;
+  padding: 0.6rem 0;
+  background-color: #130c1c;
+  border-bottom: 1px solid #3B2A4A;
+}
+
+.plausible-header.scrolled {
+  padding: 0.4rem 0;
+  background-color: rgba(19, 12, 28, 0.98);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px -8px rgba(166, 74, 254, 0.2);
+  border-bottom-color: rgba(166, 74, 254, 0.3);
+}
+
+.plausible-header.scrolled .navbar-brand {
+  font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+}
+
+.plausible-header.scrolled .navbar-nav .nav-link {
+  font-size: clamp(0.9rem, 2vw, 0.95rem);
+  padding: 0.4rem 0.8rem !important;
+}
+
+.plausible-header.scrolled .btn-trial,
+.plausible-header.scrolled .btn-signin {
+  padding: 0.35rem 1.2rem;
+  font-size: 0.9rem;
+}
+
+/* Very subtle glow line */
+.plausible-header.scrolled::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 25%;
+  width: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(166, 74, 254, 0.3), rgba(34, 211, 238, 0.3), rgba(166, 74, 254, 0.3), transparent);
+  opacity: 0.5;
+}
+@keyframes scrollFeed {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+@keyframes pulseRing {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  50% { transform: scale(2); opacity: 0; }
+  100% { transform: scale(0.8); opacity: 0; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes lightning {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); filter: drop-shadow(0 0 5px #22D3EE); }
+}
+
+@keyframes progressPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(166, 74, 254, 0.5); }
+  50% { box-shadow: 0 0 40px rgba(34, 211, 238, 0.7); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.feed-container {
+  mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+}
+
+.feed-scroll {
+  animation: scrollFeed 30s linear infinite;
+}
+
+.feed-scroll:hover {
+  animation-play-state: paused;
+}
+
+.feed-item {
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+}
+
+.feed-item:hover {
+  transform: translateX(5px) scale(1.02);
+  background: rgba(166, 74, 254, 0.1);
+  border-left-width: 6px !important;
+  box-shadow: 0 10px 30px -15px rgba(166, 74, 254, 0.5);
+}
+
+.hover-glow {
+  transition: all 0.3s ease;
+}
+
+.hover-glow:hover {
+  background: rgba(166, 74, 254, 0.1) !important;
+  box-shadow: 0 0 30px rgba(166, 74, 254, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Responsive fixes for Live Activity Feed Section */
+
+/* Make feed items stack properly on mobile */
+@media (max-width: 768px) {
+  .feed-item {
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    padding: 12px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .feed-item i.fab,
+  .feed-item i.fas {
+    font-size: 1.5rem !important;
+    margin-right: 10px !important;
+    min-width: 30px;
+  }
+
+  .feed-item .flex-grow-1 {
+    width: calc(100% - 40px) !important;
+  }
+
+  .feed-item .d-flex.justify-content-between {
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+  }
+
+  .feed-item strong {
+    font-size: 0.9rem !important;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .feed-item p {
+    font-size: 0.85rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 8px !important;
+    word-break: break-word !important;
+  }
+
+  .feed-item .d-flex.align-items-center.gap-3 {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .feed-item .badge {
+    font-size: 0.65rem !important;
+    padding: 3px 6px !important;
+  }
+
+  .feed-item .small {
+    font-size: 0.7rem !important;
+  }
+}
+
+/* Fix for very small screens */
+@media (max-width: 480px) {
+  .feed-item strong {
+    max-width: 120px;
+  }
+
+  .feed-item .small.text-muted {
+    font-size: 0.65rem !important;
+  }
+
+  .feed-item .d-flex.align-items-center.gap-3 {
+    gap: 5px !important;
+  }
+
+  .feed-item span.badge {
+    margin-right: 0 !important;
+  }
+}
+
+/* Fix for iPhone SE and smaller */
+@media (max-width: 360px) {
+  .feed-item {
+    padding: 10px !important;
+  }
+
+  .feed-item i.fab,
+  .feed-item i.fas {
+    font-size: 1.2rem !important;
+    margin-right: 8px !important;
+  }
+
+  .feed-item .flex-grow-1 {
+    width: calc(100% - 28px) !important;
+  }
+
+  .feed-item strong {
+    max-width: 100px;
+    font-size: 0.8rem !important;
+  }
+
+  .feed-item p {
+    font-size: 0.75rem !important;
+  }
+
+  .feed-item .badge {
+    padding: 2px 4px !important;
+    font-size: 0.6rem !important;
+  }
+
+  .feed-item .small.text-muted i {
+    font-size: 0.6rem !important;
+  }
+}
+
+/* Fix for feed container on mobile */
+@media (max-width: 992px) {
+  .glass-panel {
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  .feed-container {
+    max-height: 400px !important;
+    overflow-y: auto !important;
+    padding-right: 5px;
+  }
+
+  /* Custom scrollbar for feed container */
+  .feed-container::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .feed-container::-webkit-scrollbar-track {
+    background: rgba(166, 74, 254, 0.1);
+    border-radius: 10px;
+  }
+
+  .feed-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #A64AFE, #22D3EE);
+    border-radius: 10px;
+  }
+
+  /* Fix for the live stats bar */
+  .d-flex.justify-content-between.align-items-center.mt-3.pt-3 {
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: flex-start !important;
+  }
+
+  .d-flex.justify-content-between.align-items-center.mt-3.pt-3 > div:first-child {
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+
+  .d-flex.justify-content-between.align-items-center.mt-3.pt-3 .d-flex.align-items-center.gap-3 {
+    width: 100% !important;
+    justify-content: space-between !important;
+    margin-left: 0 !important;
+  }
+}
+
+/* Fix for tablet screens */
+@media (min-width: 768px) and (max-width: 992px) {
+  .glass-panel {
+    margin-bottom: 30px !important;
+  }
+
+  .feed-content-right {
+    padding-left: 0 !important;
+    margin-top: 2rem !important;
+  }
+
+  .feed-content-right h2 {
+    font-size: 2rem !important;
+  }
+
+  .d-flex.gap-4.mt-4 {
+    flex-wrap: wrap !important;
+    gap: 15px !important;
+  }
+
+  .d-flex.gap-4.mt-4 > div {
+    min-width: 80px !important;
+  }
+}
+
+/* Fix for the engagement meter on mobile */
+@media (max-width: 768px) {
+  .mt-4.p-4 {
+    padding: 15px !important;
+  }
+
+  .d-flex.justify-content-between.align-items-center.mb-3 {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+
+  .d-flex.justify-content-between.align-items-center.mb-3 span.badge {
+    align-self: flex-start !important;
+  }
+
+  .progress {
+    height: 6px !important;
+  }
+
+  .d-flex.justify-content-between.small {
+    font-size: 0.7rem !important;
+  }
+}
+
+/* Fix for source counters on mobile */
+@media (max-width: 480px) {
+  .d-flex.gap-4.mt-4 {
+    gap: 10px !important;
+    justify-content: space-between !important;
+  }
+
+  .d-flex.gap-4.mt-4 > div {
+    text-align: center !important;
+    min-width: 60px !important;
+  }
+
+  .d-flex.gap-4.mt-4 .h3.fw-bold {
+    font-size: 1.2rem !important;
+    margin-bottom: 2px !important;
+  }
+
+  .d-flex.gap-4.mt-4 .small.text-muted {
+    font-size: 0.6rem !important;
+  }
+}
+
+/* Fix for the feature list on mobile */
+@media (max-width: 768px) {
+  ul.list-unstyled li.mb-3.d-flex {
+    align-items: flex-start !important;
+  }
+
+  ul.list-unstyled li.mb-3.d-flex .me-3 {
+    width: 20px !important;
+    margin-right: 10px !important;
+  }
+
+  ul.list-unstyled li.mb-3.d-flex i {
+    font-size: 1rem !important;
+  }
+
+  ul.list-unstyled li.mb-3.d-flex strong {
+    font-size: 0.9rem !important;
+  }
+
+  ul.list-unstyled li.mb-3.d-flex .small {
+    font-size: 0.75rem !important;
+    line-height: 1.4 !important;
+  }
+}
+
+/* Fix for the live indicator on mobile */
+@media (max-width: 480px) {
+  .d-flex.align-items-center.mb-4 {
+    flex-wrap: wrap !important;
+  }
+
+  .d-flex.align-items-center.mb-4 .bg-danger {
+    width: 8px !important;
+    height: 8px !important;
+  }
+
+  .d-flex.align-items-center.mb-4 h5 {
+    font-size: 1rem !important;
+  }
+
+  .d-flex.align-items-center.mb-4 .text-muted.ms-2 {
+    margin-left: 18px !important;
+    width: 100% !important;
+    font-size: 0.7rem !important;
+  }
+}
+
+/* Ensure proper spacing on all devices */
+.real-feed-section {
+  padding: 30px 15px !important;
+}
+
+@media (max-width: 768px) {
+  .real-feed-section {
+    padding: 20px 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .real-feed-section {
+    padding: 15px 10px !important;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="plausible-header">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light p-0">
+        <a class="navbar-brand" style="width: 180px;" href="#"><img src="logo-2.png" style="width: 100%;" alt="logo"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPlausible" aria-controls="navbarPlausible" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarPlausible">
+          <ul class="navbar-nav align-items-center">
+            <li class="nav-item"><a href="#features" class="nav-link">Product</a></li>
+            <li class="nav-item"><a href="#pricing" class="nav-link">Pricing</a></li>
+            <li class="nav-item"><a href="#keyword" class="nav-link">keywords</a></li>
+            <li class="nav-item ms-lg-3 d-flex align-items-center small-size">
+              <a href="#" class="btn-signin">Sign in</a>
+              <a href="#" class="btn-trial">Start trial</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 1. Hero Section -->
+  <section class="container mt-3">
+    <div class="row align-items-center g-5">
+      <!-- Left -->
+      <div class="col-lg-6">
+        <h1 class="display-4 fw-bold">Your brand is being talked about <span class="gradient-text">right now.</span></h1>
+        <p class="lead text-light-emphasis mt-3" style="color: #D2C0F0 !important;">SignalDesk monitors social media, news, and forums in real time so your team always knows what's happening.</p>
+        <div class="d-flex gap-3 mt-4 flex-wrap">
+          <a href="#" class="btn btn-gradient btn-lg px-4 py-3">Start Monitoring Free <i class="fas fa-arrow-right ms-2"></i></a>
+          <a href="#" class="btn btn-outline-glow btn-lg px-4 py-3">View Live Dashboard</a>
+        </div>
+        <div class="gradient-divider"></div>
+        <div class="d-flex gap-4 mt-3">
+          <div><span class="counter" data-target="350">0</span><span>M+</span><br><span class="text-muted">sources</span></div>
+          <div><span class="counter" data-target="12">0</span><span>ms</span><br><span class="text-muted">latency</span></div>
+        </div>
+      </div>
+      <!-- Right: dashboard preview -->
+      <div class="col-lg-6">
+        <div class="glass-card p-3 floating real-monitor">
+          <div class="monitor-screen p-3">
+            <!-- Monitor LED indicator -->
+            <div class="monitor-led"></div>
+            
+            <div class="d-flex justify-content-between small text-uppercase text-secondary">
+              <span><span style="color: #ff4444;">●</span> live mentions</span> 
+              <span>past 24h <span style="color: #22D3EE;">▲ 23%</span></span>
+            </div>
+            
+            <canvas id="heroChart" width="400" height="120" style="max-height:120px; width:100%"></canvas>
+            
+            <div class="row mt-3 g-2">
+              <div class="col-4">
+                <div class="bg-dark p-2 rounded-4 text-center" style="background:#1A1323!important; border: 1px solid #3B2A4A;">
+                  <span class="badge" style="background: linear-gradient(145deg, #A64AFE, #3B82F6);">sentiment</span>
+                  <div id="sentimentGauge" class="small mt-1">😊 82% positive</div>
+                </div>
+              </div>
+              <div class="col-8">
+                <div class="bg-dark p-2 rounded-4 d-flex flex-wrap gap-1" style="background:#1A1323!important; border: 1px solid #3B2A4A;">
+                  <span class="badge" style="background:#22D3EE;">#brand</span>
+                  <span class="badge" style="background:#A64AFE;">#launch</span>
+                  <span class="badge" style="background:#3B82F6;">#trend</span>
+                  <span class="badge" style="background:#7C3AED;">#signal</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row mt-3 text-center">
+              <div class="col-6">
+                <div style="font-size: 1.5rem; font-weight: 700; color: #22D3EE;">45.2K</div>
+                <div class="small text-muted">total mentions</div>
+              </div>
+              <div class="col-6">
+                <div style="font-size: 1.5rem; font-weight: 700; color: #A64AFE;">+2.4K</div>
+                <div class="small text-muted">per hour</div>
+              </div>
+            </div>
+            
+            <!-- Add a subtle status bar at the bottom -->
+            <div class="mt-2 d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center">
+                <span class="badge bg-success me-2" style="background: #10B981 !important;">● LIVE</span>
+                <span class="small text-muted">Data refresh: 2s</span>
+              </div>
+              <div class="small text-muted">
+                <i class="fas fa-signal me-1"></i> strong
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Live Activity Feed Section (Static, Authentic Design) -->
+<section class="container my-5 pt-5" id="features">
+  <div class="real-feed-section position-relative">
+    <div class="row align-items-center g-5">
+      <!-- Left side: Live Feed UI - Static but polished -->
+      <div class="col-lg-6">
+        <div class="glass-panel p-4" style="backdrop-filter: blur(12px); background: rgba(20, 12, 28, 0.9); border: 1px solid rgba(166, 74, 254, 0.2);">
+          <!-- Live indicator - simple static -->
+          <div class="d-flex align-items-center mb-4">
+            <div class="bg-danger rounded-circle me-2" style="width: 10px; height: 10px;"></div>
+            <h5 class="mb-0 text-white">LIVE FEED</h5>
+            <span class="text-muted ms-2 small">UPDATING IN REAL-TIME</span>
+          </div>
+          
+          <!-- Static feed container (no animations) -->
+          <div class="feed-container">
+            <!-- Twitter mention -->
+            <div class="feed-item p-3 mb-3 d-flex" style="background: rgba(255,255,255,0.02); border-left: 3px solid #1DA1F2; border-radius: 12px;">
+              <i class="fab fa-twitter me-3 fs-4" style="color:#1DA1F2;"></i>
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between align-items-center">
+                  <strong class="text-white">@techcrunch</strong>
+                  <span class="text-muted small">2m ago</span>
+                </div>
+                <p class="mb-2 small text-light">“SignalDesk just raised the bar for real‑time listening...”</p>
+                <div class="d-flex align-items-center gap-3">
+                  <span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid #10B981;">positive</span>
+                  <span class="small text-muted"><i class="fas fa-retweet me-1"></i>234</span>
+                  <span class="small text-muted"><i class="fas fa-heart me-1"></i>1.2k</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reddit mention -->
+            <div class="feed-item p-3 mb-3 d-flex" style="background: rgba(255,255,255,0.02); border-left: 3px solid #FF4500; border-radius: 12px;">
+              <i class="fab fa-reddit-alien me-3 fs-4" style="color:#FF4500;"></i>
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between align-items-center">
+                  <strong class="text-white">r/SaaS</strong>
+                  <span class="text-muted small">7m ago</span>
+                </div>
+                <p class="mb-2 small text-light">“anyone using SignalDesk? The sentiment gauge is wild 🔥”</p>
+                <div class="d-flex align-items-center gap-3">
+                  <span class="badge" style="background: rgba(156, 163, 175, 0.15); color: #9CA3AF; border: 1px solid #9CA3AF;">neutral</span>
+                  <span class="small text-muted"><i class="fas fa-arrow-up me-1"></i>156</span>
+                  <span class="small text-muted"><i class="fas fa-comment me-1"></i>43</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- News mention -->
+            <div class="feed-item p-3 mb-3 d-flex"  style="background: rgba(255,255,255,0.02); border-left: 3px solid #77C5FF; border-radius: 12px;">
+              <i class="fas fa-newspaper me-3 fs-4" style="color:#77C5FF;"></i>
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between align-items-center">
+                  <strong class="text-white">TechCrunch</strong>
+                  <span class="text-muted small">17m ago</span>
+                </div>
+                <p class="mb-2 small text-light">“SignalDesk launches AI-powered competitor tracking”</p>
+                <div class="d-flex align-items-center gap-3">
+                  <span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid #10B981;">positive</span>
+                  <span class="small text-muted"><i class="fas fa-eye me-1"></i>3.4k</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Second Twitter mention -->
+            <div class="feed-item p-3 mb-3 d-flex" style="background: rgba(255,255,255,0.02); border-left: 3px solid #1DA1F2; border-radius: 12px;">
+              <i class="fab fa-twitter me-3 fs-4" style="color:#1DA1F2;"></i>
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between align-items-center">
+                  <strong class="text-white">@verge</strong>
+                  <span class="text-muted small">22m ago</span>
+                </div>
+                <p class="mb-2 small text-light">“SignalDesk's new dashboard is incredibly fast. Real-time at scale.”</p>
+                <div class="d-flex align-items-center gap-3">
+                  <span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid #10B981;">positive</span>
+                  <span class="small text-muted"><i class="fas fa-retweet me-1"></i>89</span>
+                  <span class="small text-muted"><i class="fas fa-heart me-1"></i>445</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Second Reddit mention -->
+            <div class="feed-item p-3 mb-3 d-flex" style="background: rgba(255,255,255,0.02); border-left: 3px solid #FF4500; border-radius: 12px;">
+              <i class="fab fa-reddit-alien me-3 fs-4" style="color:#FF4500;"></i>
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between align-items-center">
+                  <strong class="text-white">r/marketing</strong>
+                  <span class="text-muted small">31m ago</span>
+                </div>
+                <p class="mb-2 small text-light">“Just switched to SignalDesk for brand monitoring. Game changer!”</p>
+                <div class="d-flex align-items-center gap-3">
+                  <span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid #10B981;">positive</span>
+                  <span class="small text-muted"><i class="fas fa-arrow-up me-1"></i>67</span>
+                  <span class="small text-muted"><i class="fas fa-comment me-1"></i>12</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live stats bar - static numbers -->
+          <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top" style="border-color: rgba(166, 74, 254, 0.2) !important;">
+            <div class="d-flex align-items-center">
+              <span class="badge me-2" style="background: #10B981; color: white;">● 2.3k</span>
+              <span class="small text-muted">mentions in last minute</span>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <div class="small text-muted">
+                <i class="fas fa-chart-line me-1" style="color: #22D3EE;"></i>
+                342%
+              </div>
+              <div class="small text-muted">
+                <i class="fas fa-globe me-1" style="color: #A64AFE;"></i>
+                12 sources
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side: Content - Clean and professional -->
+      <div class="col-lg-6">
+        <div class="feed-content-right">
+          <!-- Simple badge - no animations -->
+          <div class="mb-4">
+            <span class="badge p-2" style="background: rgba(166, 74, 254, 0.1); border: 1px solid rgba(166, 74, 254, 0.3); color: #A64AFE;">
+              <i class="fas fa-bolt me-2"></i>Real-time updates every 2 seconds
+            </span>
+          </div>
+
+          <h2 class="display-5 fw-bold mb-4 text-white">
+            See every mention
+            <span class="d-block" style="background: linear-gradient(135deg, #A64AFE, #22D3EE); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">as it happens</span>
+          </h2>
+          
+          <p class="lead mb-4" style="color: #C1B0D9; font-size: 1.2rem; line-height: 1.6;">
+            SignalDesk scans thousands of sources from tweets to subreddits and surfaces conversations instantly. <span style="color: #A64AFE; font-weight: 600;">No delay, no noise.</span>
+          </p>
+          
+          <!-- Feature list - clean static list -->
+          <ul class="list-unstyled">
+            <li class="mb-3 d-flex">
+              <div class="me-3" style="width: 24px; color: #22D3EE;">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div>
+                <strong class="text-white">2-second latency</strong>
+                <div class="small text-muted">Be the first to know about brand mentions</div>
+              </div>
+            </li>
+            <li class="mb-3 d-flex">
+              <div class="me-3" style="width: 24px; color: #A64AFE;">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div>
+                <strong class="text-white">50+ sources</strong>
+                <div class="small text-muted">Social, news, forums, blogs, podcasts</div>
+              </div>
+            </li>
+            <li class="mb-3 d-flex">
+              <div class="me-3" style="width: 24px; color: #22D3EE;">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div>
+                <strong class="text-white">Smart filtering</strong>
+                <div class="small text-muted">No spam, no noise, just relevant conversations</div>
+              </div>
+            </li>
+            <li class="mb-3 d-flex">
+              <div class="me-3" style="width: 24px; color: #A64AFE;">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div>
+                <strong class="text-white">Sentiment analysis</strong>
+                <div class="small text-muted">Understand the mood behind every mention</div>
+              </div>
+            </li>
+          </ul>
+
+          <!-- Engagement meter - static but polished -->
+          <div class="mt-4 p-4" style="background: rgba(166, 74, 254, 0.05); border-radius: 24px; border: 1px solid rgba(166, 74, 254, 0.2);">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-white fw-bold">Live Engagement Rate</span>
+              <span class="badge" style="background: rgba(34, 211, 238, 0.1); color: #22D3EE; border: 1px solid #22D3EE;">
+                <i class="fas fa-arrow-up me-1"></i>+342% vs yesterday
+              </span>
+            </div>
+            
+            <div class="progress mb-2" style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+              <div class="progress-bar" style="width: 78%; background: linear-gradient(90deg, #A64AFE, #22D3EE); border-radius: 4px;"></div>
+            </div>
+            
+            <div class="d-flex justify-content-between small">
+              <span class="text-muted">0</span>
+              <span class="text-white">78% active now</span>
+              <span class="text-muted">100%</span>
+            </div>
+          </div>
+
+          <!-- Source counter - static numbers -->
+          <div class="d-flex gap-4 mt-4">
+            <div>
+              <div class="h3 fw-bold" style="background: linear-gradient(135deg, #A64AFE, #22D3EE); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">47</div>
+              <span class="small text-muted">active sources</span>
+            </div>
+            <div>
+              <div class="h3 fw-bold" style="background: linear-gradient(135deg, #A64AFE, #22D3EE); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">12</div>
+              <span class="small text-muted">languages</span>
+            </div>
+            <div>
+              <div class="h3 fw-bold" style="background: linear-gradient(135deg, #A64AFE, #22D3EE); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">24</div>
+              <span class="small text-muted">countries</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- 3. Sentiment Intelligence -->
+  <section class="container-fluid" style="background: #130c1c; padding: 80px 0;">
+    <div class="container">
+      <h2 class="text-center">Understand how people feel about your brand</h2>
+      <div class="row justify-content-center mt-4">
+        <div class="col-lg-8">
+          <div class="glass-card p-4">
+            <canvas id="sentimentChart" width="600" height="200" style="max-height:200px; width:100%"></canvas>
+            <div class="d-flex justify-content-around mt-3">
+              <span><span style="color:#22D3EE;">●</span> Positive 62%</span>
+              <span><span style="color:#A64AFE;">●</span> Neutral 24%</span>
+              <span><span style="color:#3B82F6;">●</span> Negative 14%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Competitor Tracking -->
+  <section class="container my-5 " style="padding: 60px 0 !important;">
+    <div class="row align-items-center g-5">
+      <div class="col-md-6">
+        <div class="glass-card p-4">
+          <h5 class="mb-3">📊 vs competitors</h5>
+          <canvas id="competitorChart" width="400" height="200"></canvas>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h2>Track competitors & industry trends</h2>
+        <p>Monitor how your competitors are being discussed online. Spot opportunities before they trend with cross‑brand sentiment and share of voice.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Trend Discovery (4 cards) -->
+  <section class="container" style="padding: 60px 0 ">
+    <div class="row g-4">
+      <div class="col-md-3 col-6">
+        <div class="glass-card p-3 text-center lift">
+          <i class="fas fa-fire fa-2x mb-2" style="color:#A64AFE;"></i>
+          <h5>Trending Keywords</h5>
+          <div class="mini-chart"><canvas id="trendMini1"></canvas></div>
+          <span class="badge bg-dark">#AI, #analytics</span>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="glass-card p-3 text-center lift">
+          <i class="fas fa-star fa-2x mb-2" style="color:#FFD700;"></i>
+          <h5>Top Influencers</h5>
+          <div class="counter" data-target="28">0</div>
+          <span>active voices</span>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="glass-card p-3 text-center lift">
+          <i class="fas fa-chart-line fa-2x mb-2" style="color:#22D3EE;"></i>
+          <h5>Viral Posts</h5>
+          <span>+342% </span><span class="text-info">imp.</span>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="glass-card p-3 text-center lift">
+          <i class="fas fa-lightbulb fa-2x mb-2" style="color:#77C5FF;"></i>
+          <h5>Emerging Topics</h5>
+          <span>#realtime</span> <span>#privacy</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Platform Coverage (icon grid) -->
+  <section class="container my-5 py-3"  id="coverage">
+    <h2 class="text-center">Monitor across the entire internet</h2>
+    <div class="row g-3 mt-3 justify-content-center">
+      <div class="col-3 col-md-3 col-lg-1-5"><div class="icon-card"><i class="fab fa-twitter"></i><span class="d-block">Twitter</span></div></div>
+      <div class="col-3 col-md-3 col-lg-1-5"><div class="icon-card"><i class="fab fa-reddit-alien"></i><span>Reddit</span></div></div>
+      <div class="col-3 col-md-3 col-lg-1-5"><div class="icon-card"><i class="fab fa-linkedin"></i><span>LinkedIn</span></div></div>
+      <div class="col-3 col-md-3 col-lg-1-5"><div class="icon-card"><i class="fab fa-youtube"></i><span>YouTube</span></div></div>
+      <div class="col-3 col-md-3 col-lg-1-5"><div class="icon-card"><i class="fas fa-newspaper"></i><span>News</span></div></div>
+      <div class="col-3 col-md-3 col-lg-1-5"><div class="icon-card"><i class="fas fa-blog"></i><span>Blogs</span></div></div>
+      <div class="col-3 col-md-3 col-lg-1-5"><div class="icon-card"><i class="fas fa-podcast"></i><span>Podcasts</span></div></div>
+      <div class="col-3 col-md-3 col-lg-1-5"><div class="icon-card"><i class="fas fa-users"></i><span>Forums</span></div></div>
+    </div>
+  </section>
+
+  <!-- 7. Workflow timeline -->
+  <section class="container my-5" style="padding: 60px 0;" id="keyword">
+    <h2 class="text-center">From keyword to alert in seconds</h2>
+    <div class="row mt-5 g-0 justify-content-center">
+      <div class="col-md-3 text-center"><span class="badge bg-gradient p-3" style="background:#A64AFE;">1. Connect keywords</span><div class="small mt-2">#brand, #product</div></div>
+      <div class="col-md-3 text-center"><span class="badge bg-gradient p-3" style="background:#3B82F6;">2. Monitor</span><div class="small">real‑time stream</div></div>
+      <div class="col-md-3 text-center"><span class="badge bg-gradient p-3" style="background:#22D3EE;">3. Analyze sentiment</span><div class="small">AI classification</div></div>
+      <div class="col-md-3 text-center"><span class="badge bg-gradient p-3" style="background:#A64AFE;">4. Receive alerts</span><div class="small">slack / email</div></div>
+    </div>
+  </section>
+
+  <!-- 8. Pricing -->
+  <section class="container my-5" id="pricing">
+    <h2 class="text-center">Plans for every scale</h2>
+    <div class="row mt-5 g-4">
+      <div class="col-md-4"><div class="glass-card p-4 text-center h-100 lift"><h4>Starter</h4><div class="display-6">$19</div><hr class="bg-light"><p>5 keywords · basic sentiment</p><a href="#" class="btn btn-outline-glow mt-3">Get started</a></div></div>
+      <div class="col-md-4"><div class="glass-card p-4 text-center h-100 lift" style="border:2px solid #A64AFE; box-shadow:0 0 30px #A64AFE40;"><h4 class="gradient-text">Pro</h4><div class="display-6">$49</div><hr><p>Unlimited keywords · competitor track · alerts</p><a href="#" class="btn btn-gradient mt-3">Start Monitoring Free</a></div></div>
+      <div class="col-md-4"><div class="glass-card p-4 text-center h-100 lift"><h4>Agency</h4><div class="display-6">$99</div><hr><p>White‑label · API access · team</p><a href="#" class="btn btn-outline-glow mt-3">Contact sales</a></div></div>
+    </div>
+  </section>
+
+  <!-- 9. Final CTA -->
+  <section class="container-fluid" id="cta" style="background:linear-gradient(145deg, #2A1C3A, #1F172A, #162B3A); padding: 80px 0;">
+    <div class="container text-center">
+      <h2 class="display-5 fw-bold">Start listening to your brand today</h2>
+      <a href="#" class="btn btn-gradient btn-lg mt-4 px-5 py-3">Start Monitoring Free <i class="fas fa-arrow-right ms-2"></i></a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="plausible-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 mb-4">
+          <h6>Product</h6>
+          <a href="#">Features</a>
+          <a href="#">Pricing</a>
+          <a href="#">Demo</a>
+          <a href="#">Integrations</a>
+          <a href="#">Changelog</a>
+        </div>
+        <div class="col-md-3 mb-4">
+          <h6>Resources</h6>
+          <a href="#">Documentation</a>
+          <a href="#">Blog</a>
+          <a href="#">Community</a>
+          <a href="#">Support</a>
+          <a href="#">Status</a>
+        </div>
+        <div class="col-md-3 mb-4">
+          <h6>Company</h6>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Imprint</a>
+        </div>
+        <div class="col-md-3 mb-4">
+          <!-- <h6>Connect</h6> -->
+           <a  class="navbar-brand" style="width: 160px;" href="#"><img src="logo-2.png" style="width: 100%;" alt="logo"></a>
+          <p>SignalDesk monitors social media, news, and forums in real time so your team always knows what's happening.</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+          <!-- <p class="mt-3 small">Subscribe to our newsletter</p>
+          <form class="d-flex">
+            <input type="email" class="form-control form-control-sm me-2" placeholder="Email">
+            <button class="btn btn-sm btn-outline-secondary" type="submit">Sign up</button>
+          </form> -->
+        </div>
+      </div>
+      <div class="copyright">
+        <span class="gradient-text fw-bold"></span> · © 2025 Real‑time intelligence. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script>
+    (function() {
+      const heroCtx = document.getElementById('heroChart')?.getContext('2d');
+      if (heroCtx) new Chart(heroCtx, { type: 'line', data: { labels: ['1','2','3','4','5','6','7'], datasets: [{ data: [12, 19, 15, 27, 24, 35, 42], borderColor: '#A64AFE', backgroundColor: '#A64AFE20', tension: 0.3, fill: true }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { display: false }, x: { display: false } }, plugins: { legend: { display: false } } } });
+
+      const sentimentCtx = document.getElementById('sentimentChart')?.getContext('2d');
+      if (sentimentCtx) new Chart(sentimentCtx, { type: 'doughnut', data: { labels: ['Positive','Neutral','Negative'], datasets: [{ data: [62,24,14], backgroundColor: ['#22D3EE','#A64AFE','#3B82F6'], borderWidth: 0 }] }, options: { cutout:'65%', plugins: { legend: { display: false } } } });
+
+      const competitorCtx = document.getElementById('competitorChart')?.getContext('2d');
+      if (competitorCtx) new Chart(competitorCtx, { type: 'bar', data: { labels: ['You', 'BrandA', 'BrandB'], datasets: [{ label: 'mentions (k)', data: [128, 94, 143], backgroundColor: '#A64AFE' }, { label: 'sentiment', data: [82, 67, 71], backgroundColor: '#22D3EE' }] }, options: { responsive: true, plugins: { legend: { labels: { color: '#fff' } } } } });
+
+      document.querySelectorAll('.mini-chart canvas').forEach((canvas, idx) => {
+        new Chart(canvas, { type: 'line', data: { labels: ['','','',''], datasets: [{ data: [2,5,3,8], borderColor: idx%2 ? '#22D3EE' : '#A64AFE', borderWidth: 2, fill: false, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { display: false }, y: { display: false } }, plugins: { legend: { display: false } } } });
+      });
+
+      const counters = document.querySelectorAll('.counter');
+      const speed = 400;
+      const updateCount = (el) => {
+        const target = +el.dataset.target;
+        const inc = target / speed;
+        let current = 0;
+        const update = () => {
+          current += inc;
+          if (current < target) { el.innerText = Math.ceil(current); requestAnimationFrame(update); }
+          else el.innerText = target;
+        }; update();
+      };
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { counters.forEach(c => updateCount(c)); observer.disconnect(); } });
+      }, { threshold: 0.5 });
+      if (counters.length) observer.observe(counters[0].parentNode);
+
+      document.querySelectorAll('.feed-item').forEach((el, i) => { el.style.animationDelay = i*0.15+'s'; });
+    })();
+  </script>
+
+  <script>
+  // Sticky navbar shrink effect
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.plausible-header');
+    if (window.scrollY > 50) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+</script>
+
+</body>
+</html>
